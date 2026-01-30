@@ -12,7 +12,6 @@ export default function Section02() {
         { src: "/images/rata5.png", alt: "Ratita ve el lazo rojo dentro de la tienda" },
         { src: "/images/rata6.png", alt: "Ratita compra el lazo rojo" },
       ]}
-      bg="#081a2b"
     />
   )
 }

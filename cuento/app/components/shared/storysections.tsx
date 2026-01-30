@@ -73,44 +73,34 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
   }, [])
 
   return (
-    <section id={id} className="relative h-[100vh] w-[100vw] overflow-hidden">
-      <div
-        ref={rootRef}
-        className="relative h-full w-full"
-        style={{ background: bg ?? "#0b1020" }}
-      >
-        {/* CAPA IMÁGENES */}
-        <div className="absolute inset-0">
-          {images.map((img, i) => (
-            <div key={img.src} data-frame className="absolute inset-0">
-              <Image
-                src={img.src}
-                alt={img.alt}
-                fill
-                priority={id === "s01"} // solo la primera prioritaria
-                className="object-cover"
-                sizes="100vw"
-              />
-              {/* leve overlay para legibilidad */}
-              <div className="absolute inset-0 bg-black/20" />
+    <section id={id} className="story-section">
+      <div ref={rootRef} className="story-root" style={{ background: bg ?? "#0b1020" }}>
+        <div className="frames">
+          {images.map((img) => (
+            <div key={img.src} className="frame">
+              <div className="img-wrap">
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="100vw"
+                  unoptimized
+                  className="img"
+                />
+              </div>
+              <div className="overlay" />
             </div>
           ))}
         </div>
 
-        {/* TEXTO / NARRADOR */}
-        <div className="relative z-10 flex h-full w-full items-end p-6 md:p-10">
-          <div className="max-w-[720px] rounded-2xl bg-white/80 p-4 backdrop-blur-md md:p-6">
-            <h2 data-title className="text-xl font-bold md:text-3xl">
-              {title}
-            </h2>
-            {subtitle ? (
-              <p data-subtitle className="mt-2 text-sm md:text-lg">
-                {subtitle}
-              </p>
-            ) : null}
+        <div className="story-text-wrap">
+          <div className="story-card">
+            <h2 data-title className="story-title">{title}</h2>
+            {subtitle ? <p data-subtitle className="story-subtitle">{subtitle}</p> : null}
           </div>
         </div>
       </div>
     </section>
+
   )
 }

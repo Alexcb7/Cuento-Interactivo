@@ -12,7 +12,6 @@ export default function Section01() {
         { src: "/images/rata2.png", alt: "Ratita recogiendo la moneda" },
         { src: "/images/rata3.png", alt: "Ratita pensando qué comprar" },
       ]}
-      bg="#0b1020"
     />
   )
 }

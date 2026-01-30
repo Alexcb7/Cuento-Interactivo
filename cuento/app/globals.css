@@ -1,60 +1,80 @@
-/* app/globals.css */
-html,
-body {
+/* --- Reset básico --- */
+html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
 body {
-  overflow-x: hidden;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow-x: hidden;         /* ✅ quita scroll lateral */
   background: #0b1020;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-/* Evita el “bounce” raro en tablet y mejora tacto */
+/* Evita que algo “se salga” del viewport por transforms/GSAP */
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
 }
 
+/* ✅ importantísimo en Next: el contenedor raíz que hace de viewport */
 main {
   width: 100%;
+  overflow-x: hidden;
 }
 
-/* Cada sección ya mide 100vh/100vw desde TSX,
-   pero esto refuerza y evita cosas raras */
-section {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
+/* --- Secciones fullscreen --- */
+.story-section {
+  width: 100%;
+  height: 100svh;             /* ✅ mejor en móvil/tablet */
   overflow: hidden;
 }
 
-/* Para que el overlay de texto se vea legible en móvil/tablet */
-.story-card {
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(8px);
-  padding: 16px;
-  max-width: 720px;
+/* fallback para navegadores que no soporten svh */
+@supports not (height: 100svh) {
+  .story-section { height: 100vh; }
 }
 
-/* Tipografías adaptadas */
-.story-title {
-  margin: 0;
-  font-weight: 800;
-  font-size: clamp(20px, 2.5vw, 34px);
-  line-height: 1.1;
+.story-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;           /* ✅ evita barras */
 }
 
-.story-subtitle {
-  margin: 10px 0 0;
-  font-size: clamp(14px, 1.6vw, 20px);
-  line-height: 1.35;
+/* Frames y capas */
+.frames {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
-/* Zona inferior donde va el texto */
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* ✅ clave para Image fill */
+.img-wrap {
+  position: absolute;         /* mejor que relative aquí */
+  inset: 0;
+}
+
+.img {
+  object-fit: cover;          /* ✅ ocupa todo sin deformar */
+  object-position: center;    /* ✅ centrada */
+  display: block;
+}
+
+/* overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* Texto */
 .story-text-wrap {
   position: relative;
   z-index: 10;
@@ -65,12 +85,16 @@ section {
   padding: 16px;
 }
 
+.story-card {
+  max-width: 720px;
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 18px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+
+/* Responsive */
 @media (min-width: 768px) {
-  .story-text-wrap {
-    padding: 40px;
-  }
-  .story-card {
-    padding: 22px;
-    border-radius: 22px;
-  }
+  .story-text-wrap { padding: 40px; }
+  .story-card { padding: 22px; border-radius: 22px; }
 }

@@ -8,11 +8,10 @@ export default function Section04() {
       title="Aparece el gallo enamorado"
       subtitle="Pero… la ratita no está convencida."
       images={[
-        { src: "/images/s04/1.webp", alt: "Gallo aparece enamorado" },
-        { src: "/images/s04/2.webp", alt: "Gallo y ratita conversan, ratita rechaza" },
-        { src: "/images/s04/3.webp", alt: "Gallo se va triste" },
+        { src: "/images/rata10.png", alt: "Gallo aparece enamorado" },
+        { src: "/images/rata11.png", alt: "Gallo y ratita conversan, ratita rechaza" },
+        { src: "/images/rata12.png", alt: "Gallo se va triste" },
       ]}
-      bg="#2a1a08"
     />
   )
 }
