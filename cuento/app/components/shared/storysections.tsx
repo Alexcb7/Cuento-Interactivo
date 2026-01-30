@@ -11,7 +11,7 @@ type Props = {
   id: string
   title: string
   subtitle?: string
-  images: { src: string; alt: string }[] // 3 por sección
+  images: { src: string; alt: string }[] // EXACTO 3
   bg?: string
 }
 
@@ -24,66 +24,67 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
 
     const ctx = gsap.context(() => {
       const frames = Array.from(section.querySelectorAll<HTMLElement>("[data-frame]"))
-      const titleEl = section.querySelector<HTMLElement>("[data-title]")
-      const subEl = section.querySelector<HTMLElement>("[data-subtitle]")
 
-      if (frames.length < 3) return
-
-      // 🔒 Estado inicial inmediato (evita flashes)
-      frames.forEach((el, i) => gsap.set(el, { opacity: i === 0 ? 1 : 0 }))
-      if (titleEl) gsap.set(titleEl, { opacity: 1, y: 0 })
-      if (subEl) gsap.set(subEl, { opacity: 1, y: 0 })
-
-      let current = 0
-      const show = (index: number) => {
-        if (index === current) return
-        gsap.to(frames[current], { opacity: 0, duration: 0.2, overwrite: true })
-        gsap.to(frames[index], { opacity: 1, duration: 0.2, overwrite: true })
-        current = index
+      if (frames.length !== 3) {
+        console.warn(`[${id}] Esta sección debe tener 3 imágenes. Tiene:`, frames.length)
+        return
       }
 
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        onUpdate: (self) => {
-          const p = self.progress
-          const idx = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2
-          show(idx)
+      // Estado inicial
+      gsap.set(frames, { opacity: 0 })
+      gsap.set(frames[0], { opacity: 1 })
+
+      // Timeline a "pasos" controlado por scroll
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=400%", // 3 tramos: img1 -> img2 -> img3
+          scrub: true,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          // markers: true,
         },
       })
 
+      // Cambios SECO (sin crossfade). Si quieres fade: sube duration a 0.2/0.3
+      tl.addLabel("f1", 0)
+      tl.addLabel("f2", 1 / 4)
+      tl.addLabel("f3", 2 / 4)
+
+      tl.to(frames[0], { opacity: 0, duration: 0.01 }, "f2")
+      tl.to(frames[1], { opacity: 1, duration: 0.01 }, "f2")
+
+      tl.to(frames[1], { opacity: 0, duration: 0.01 }, "f3")
+      tl.to(frames[2], { opacity: 1, duration: 0.01 }, "f3")
     }, section)
 
+    // refresco por si Next/Image termina de calcular tamaños más tarde
     const t = setTimeout(() => ScrollTrigger.refresh(), 150)
 
     return () => {
       clearTimeout(t)
       ctx.revert()
     }
-  }, [images])
-
-  // ✅ altura: 3 imágenes => 300vh (scroll natural dentro de sección)
-  const sectionHeightVh = Math.max(1, images.length) * 100
+  }, [id, images])
 
   return (
     <section
       id={id}
       ref={sectionRef}
       className="story-section"
-      style={{ height: `${sectionHeightVh}vh`, background: bg ?? "#0b1020" }}
+      style={{ background: bg ?? "#0b1020" }}
     >
-      {/* ✅ sticky: mantiene la “pantalla” fija mientras haces scroll natural */}
       <div className="story-sticky">
         <div className="frames">
           {images.map((img, i) => (
             <div
               key={img.src}
-              className="frame"
               data-frame
-              // 🔒 evita flash sin depender de GSAP
-              style={{ opacity: i === 0 ? 1 : 0 }}
+              className="frame"
+              style={{ opacity: i === 0 ? 1 : 0 }} // evita flash al recargar
             >
               <div className="img-wrap">
                 <Image
@@ -91,12 +92,14 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
                   alt={img.alt}
                   fill
                   sizes="100vw"
-                  className="img"
                   unoptimized
+                  className="img"
                   priority={id === "s01" && i === 0}
                   loading={id === "s01" && i === 0 ? "eager" : "lazy"}
                 />
               </div>
+
+              {/* overlay opcional */}
               <div className="overlay" />
             </div>
           ))}
@@ -104,8 +107,8 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
 
         <div className="story-text-wrap">
           <div className="story-card">
-            <h2 data-title className="story-title">{title}</h2>
-            {subtitle ? <p data-subtitle className="story-subtitle">{subtitle}</p> : null}
+            <h2 className="story-title">{title}</h2>
+            {subtitle ? <p className="story-subtitle">{subtitle}</p> : null}
           </div>
         </div>
       </div>

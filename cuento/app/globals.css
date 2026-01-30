@@ -8,7 +8,6 @@ html, body {
 }
 
 body {
-  background: #0b1020;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -32,21 +31,20 @@ main {
    SECCIONES (SCROLL REAL)
    ===================== */
 
-/* La sección NO es 100vh
-   → mide 300vh (o images.length * 100vh desde JSX) */
 .story-section {
   position: relative;
   width: 100%;
+  min-height: 100vh;
   overflow: hidden;
 }
 
 /* El “viewport” fijo mientras se consume la sección */
 .story-sticky {
-  position: sticky;
-  top: 0;
+  position: relative;
   width: 100%;
   height: 100svh;
   overflow: hidden;
+  will-change: transform; /* ayuda al pin de GSAP */
 }
 
 /* Fallback por si svh no existe */
@@ -72,20 +70,17 @@ main {
   overflow: hidden;
 }
 
-/* Contenedor obligatorio para Image fill */
 .img-wrap {
   position: absolute;
   inset: 0;
 }
 
-/* Imagen ocupa todo */
 .img {
   object-fit: cover;
   object-position: center;
-  display: block;
+ background-size: cover;
 }
 
-/* Overlay opcional */
 .overlay {
   position: absolute;
   inset: 0;
@@ -115,6 +110,20 @@ main {
   padding: 16px;
 }
 
+.story-title {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  line-height: 1.15;
+  color: #0b1020;
+}
+
+.story-subtitle {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: rgba(11, 16, 32, 0.78);
+}
+
 /* Responsive */
 @media (min-width: 768px) {
   .story-text-wrap {
@@ -123,5 +132,11 @@ main {
   .story-card {
     padding: 22px;
     border-radius: 22px;
+  }
+  .story-title {
+    font-size: 28px;
+  }
+  .story-subtitle {
+    font-size: 16px;
   }
 }
