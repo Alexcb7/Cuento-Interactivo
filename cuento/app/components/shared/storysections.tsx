@@ -39,7 +39,7 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=400%", // 3 tramos: img1 -> img2 -> img3
+          end: "+=200%", // 3 tramos: img1 -> img2 -> img3
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -57,12 +57,12 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
       tl.to(frames[0], { opacity: 0, duration: 0.01 }, "f2")
       tl.to(frames[1], { opacity: 1, duration: 0.01 }, "f2")
 
-      tl.to(frames[1], { opacity: 0, duration: 0.01 }, "f3")
-      tl.to(frames[2], { opacity: 1, duration: 0.01 }, "f3")
+      tl.to(frames[1], { opacity: 0, duration: 0.05 }, "f3")
+      tl.to(frames[2], { opacity: 1, duration: 0.05 }, "f3")
     }, section)
 
     // refresco por si Next/Image termina de calcular tamaños más tarde
-    const t = setTimeout(() => ScrollTrigger.refresh(), 150)
+    const t = setTimeout(() => ScrollTrigger.refresh(), 300)
 
     return () => {
       clearTimeout(t)
