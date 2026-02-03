@@ -11,7 +11,7 @@ type Props = {
   id: string
   title: string
   subtitle?: string
-  images: { src: string; alt: string }[] // EXACTO 3
+  images: { src: string; alt: string }[]
   bg?: string
 }
 
@@ -24,45 +24,53 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
 
     const ctx = gsap.context(() => {
       const frames = Array.from(section.querySelectorAll<HTMLElement>("[data-frame]"))
+      const sticky = section.querySelector<HTMLElement>(".story-sticky")
 
-      if (frames.length !== 3) {
-        console.warn(`[${id}] Esta sección debe tener 3 imágenes. Tiene:`, frames.length)
+      if (!sticky) {
+        console.warn(`[${id}] No encuentro .story-sticky dentro de la sección.`)
         return
       }
 
-      // Estado inicial
+      if (frames.length === 0) {
+        console.warn(`[${id}] No hay frames en esta sección.`)
+        return
+      }
+
       gsap.set(frames, { opacity: 0 })
       gsap.set(frames[0], { opacity: 1 })
 
-      // Timeline a "pasos" controlado por scroll
+      if (frames.length === 1) return
+
+      const steps = frames.length - 1
+      const totalSlots = steps + 1 // +1 => HOLD final
+      const snapPoints = Array.from({ length: totalSlots + 1 }, (_, i) => i / totalSlots)
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=200%", // 3 tramos: img1 -> img2 -> img3
+          end: () => "+=" + window.innerHeight * totalSlots,
           scrub: true,
-          pin: true,
+          pin: sticky,
           pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          // markers: true,
+          snap: {
+            snapTo: (value) => gsap.utils.snap(snapPoints, value),
+            duration: { min: 0.08, max: 0.18 },
+            ease: "power1.inOut",
+          },
         },
       })
 
-      // Cambios SECO (sin crossfade). Si quieres fade: sube duration a 0.2/0.3
-      tl.addLabel("f1", 0)
-      tl.addLabel("f2", 1 / 4)
-      tl.addLabel("f3", 2 / 4)
-
-      tl.to(frames[0], { opacity: 0, duration: 0.01 }, "f2")
-      tl.to(frames[1], { opacity: 1, duration: 0.01 }, "f2")
-
-      tl.to(frames[1], { opacity: 0, duration: 0.05 }, "f3")
-      tl.to(frames[2], { opacity: 1, duration: 0.05 }, "f3")
+      for (let i = 0; i < steps; i++) {
+        const position = (i + 1) / totalSlots
+        tl.to(frames[i], { opacity: 0, duration: 0.01 }, position)
+        tl.to(frames[i + 1], { opacity: 1, duration: 0.01 }, position)
+      }
     }, section)
 
-    // refresco por si Next/Image termina de calcular tamaños más tarde
-    const t = setTimeout(() => ScrollTrigger.refresh(), 300)
+    const t = setTimeout(() => ScrollTrigger.refresh(), 250)
 
     return () => {
       clearTimeout(t)
@@ -80,12 +88,7 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
       <div className="story-sticky">
         <div className="frames">
           {images.map((img, i) => (
-            <div
-              key={img.src}
-              data-frame
-              className="frame"
-              style={{ opacity: i === 0 ? 1 : 0 }} // evita flash al recargar
-            >
+            <div key={img.src} data-frame className="frame" style={{ opacity: i === 0 ? 1 : 0 }}>
               <div className="img-wrap">
                 <Image
                   src={img.src}
@@ -93,13 +96,12 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
                   fill
                   sizes="100vw"
                   unoptimized
-                  className="img"
+                  className="img-main"
                   priority={id === "s01" && i === 0}
                   loading={id === "s01" && i === 0 ? "eager" : "lazy"}
                 />
               </div>
 
-              {/* overlay opcional */}
               <div className="overlay" />
             </div>
           ))}

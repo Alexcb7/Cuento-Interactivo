@@ -1,10 +1,10 @@
 "use client"
 import StorySection from "@/app/components/shared/storysections"
 
-export default function Section08() {
+export default function SectionFinal() {
   return (
     <StorySection
-      id="s08"
+      id="s11"
       title="El raton y la ratita se enamoran"
       subtitle="Cita amorosa"
       images={[
