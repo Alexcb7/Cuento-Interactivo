@@ -4,7 +4,7 @@ import StorySection from "@/app/components/shared/storysections"
 export default function SectionFinal() {
   return (
     <StorySection
-      id="s11"
+      id="s10"
       title="El raton y la ratita se enamoran"
       subtitle="Cita amorosa"
       images={[

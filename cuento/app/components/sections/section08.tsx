@@ -1,16 +1,16 @@
 "use client"
 import StorySection from "@/app/components/shared/storysections"
 
-export default function Section08() {
+export default function Section09() {
   return (
     <StorySection
       id="s08"
-      title="Llega el gato con bombones"
-      subtitle="La ratita escucha… y acepta."
+      title="Rata escapa del gato"
+      subtitle="La ratita huye del gato y se mete en casa"
       images={[
-        { src: "/images/rata19.png", alt: "Gato aparece con flores" },
-        { src: "/images/rata20.png", alt: "Gato y ratita conversan, ratita acepta" },
-        { src: "/images/rata21.png", alt: "Gato la persigue" },
+        { src: "/images/rata22.png", alt: "Rata escapa del gato" },
+        { src: "/images/rata23.png", alt: "Rata tranquila leyendo" },
+        { src: "/images/rata24.png", alt: "Rata Triste" },
       ]}
     />
   )

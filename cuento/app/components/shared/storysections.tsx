@@ -42,7 +42,7 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
       if (frames.length === 1) return
 
       const steps = frames.length - 1
-      const totalSlots = steps + 1 // +1 => HOLD final
+      const totalSlots = steps + 1 
       const snapPoints = Array.from({ length: totalSlots + 1 }, (_, i) => i / totalSlots)
 
       const tl = gsap.timeline({
