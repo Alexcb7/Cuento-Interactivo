@@ -1,13 +1,12 @@
-/* =====================
-   RESET BÁSICO
-   ===================== */
 html, body {
+  width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
 body {
+  background: #0b1020;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x: hidden;
   scrollbar-width: none;
@@ -18,9 +17,7 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 main {
   width: 100%;
@@ -28,7 +25,7 @@ main {
 }
 
 /* =====================
-   SECCIONES (SCROLL REAL)
+   SECCIONES DEL CUENTO
    ===================== */
 
 .story-section {
@@ -38,58 +35,52 @@ main {
   overflow: hidden;
 }
 
-/* El “viewport” fijo mientras se consume la sección */
+/* 100vw/100vh (rúbrica) */
 .story-sticky {
   position: relative;
-  width: 100%;
-  height: 100svh;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
-  will-change: transform; /* ayuda al pin de GSAP */
-}
-
-/* Fallback por si svh no existe */
-@supports not (height: 100svh) {
-  .story-sticky {
-    height: 100vh;
-  }
+  will-change: transform;
 }
 
 /* =====================
-   IMÁGENES FULLSCREEN
+   FRAMES
    ===================== */
 
 .frames {
   position: absolute;
   inset: 0;
-  overflow: hidden;
 }
 
 .frame {
   position: absolute;
   inset: 0;
-  overflow: hidden;
 }
 
 .img-wrap {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .img {
-  object-fit: fill;
-  width: 100vw;
-  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+ background-size: cover;
 }
 
+/* overlay opcional */
 .overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.12);
 }
 
 /* =====================
-   TEXTO / NARRADOR
+   TEXTO
    ===================== */
 
 .story-text-wrap {
@@ -179,19 +170,9 @@ main {
   color: #0b1020;
 }
 
-/* Responsive */
 @media (min-width: 768px) {
-  .story-text-wrap {
-    padding: 40px;
-  }
-  .story-card {
-    padding: 22px;
-    border-radius: 22px;
-  }
-  .story-title {
-    font-size: 28px;
-  }
-  .story-subtitle {
-    font-size: 16px;
-  }
+  .story-text-wrap { padding: 40px; }
+  .story-card { padding: 22px; border-radius: 22px; }
+  .story-title { font-size: 28px; }
+  .story-subtitle { font-size: 16px; }
 }
