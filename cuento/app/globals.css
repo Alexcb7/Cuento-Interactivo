@@ -76,9 +76,9 @@ main {
 }
 
 .img {
-  object-fit: cover;
-  object-position: center;
- background-size: cover;
+  object-fit: fill;
+  width: 100vw;
+  height: 100vh;
 }
 
 .overlay {
@@ -122,6 +122,61 @@ main {
   font-size: 15px;
   line-height: 1.45;
   color: rgba(11, 16, 32, 0.78);
+}
+
+/* =====================
+   PAGINACIÓN LATERAL
+   ===================== */
+
+.pagination {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.pagination-dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.pagination-dot--active {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.15);
+}
+
+.pagination-number {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(11, 16, 32, 0.4);
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.pagination-dot--active .pagination-number {
+  color: #0b1020;
 }
 
 /* Responsive */
