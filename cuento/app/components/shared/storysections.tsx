@@ -42,7 +42,7 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
       if (frames.length === 1) return
 
       const steps = frames.length - 1
-      const totalSlots = steps + 1 
+      const totalSlots = steps + 1
       const snapPoints = Array.from({ length: totalSlots + 1 }, (_, i) => i / totalSlots)
 
       const tl = gsap.timeline({
@@ -53,21 +53,24 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
           scrub: true,
           pin: sticky,
           pinSpacing: true,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
           snap: {
             snapTo: (value) => gsap.utils.snap(snapPoints, value),
-            duration: { min: 0.08, max: 0.18 },
+            duration: { min: 0.2, max: 0.4 },
             ease: "power1.inOut",
           },
         },
       })
 
       for (let i = 0; i < steps; i++) {
-        const position = (i + 1) / totalSlots
+        // Posiciones enteras (1, 2, …) en vez de fracciones (1/3, 2/3, …)
+        // para que el scrub las mapee correctamente al progreso de scroll
+        const position = i + 1
         tl.to(frames[i], { opacity: 0, duration: 0.01 }, position)
         tl.to(frames[i + 1], { opacity: 1, duration: 0.01 }, position)
       }
+      // Ancla al final para forzar duración = totalSlots y alinear el mapeo
+      tl.set({}, {}, totalSlots)
     }, section)
 
     const t = setTimeout(() => ScrollTrigger.refresh(), 250)

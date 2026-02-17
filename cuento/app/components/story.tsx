@@ -10,6 +10,7 @@ import Section07 from "@/app/components/sections/section07"
 import Section08 from "@/app/components/sections/section08"
 import Section09 from "@/app/components/sections/section09"
 import Section10 from "@/app/components/sections/section_final"
+import Pagination from "@/app/components/shared/pagination"
 
 
 export default function Story() {
@@ -25,7 +26,7 @@ export default function Story() {
       <Section08 />
       <Section09 />
       <Section10 />
-      
+      <Pagination />
     </main>
   )
 }
