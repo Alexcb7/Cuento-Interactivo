@@ -3,18 +3,18 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 body {
   background: #0b1020;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   overflow-x: hidden;
-  scrollbar-width: none;
-}
-
-body::-webkit-scrollbar {
-  width: 0;
-  height: 0;
 }
 
 * { box-sizing: border-box; }

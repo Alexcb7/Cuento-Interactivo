@@ -9,5 +9,13 @@ export default function Page() {
     initLenis()
   }, [])
 
+  React.useEffect(() => {
+    const blockSpace = (e: KeyboardEvent) => {
+      if (e.code === "Space") e.preventDefault()
+    }
+    window.addEventListener("keydown", blockSpace)
+    return () => window.removeEventListener("keydown", blockSpace)
+  }, [])
+
   return <Story />
 }
