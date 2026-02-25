@@ -7,16 +7,45 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
+type SparklePoint = {
+  frameIndex: number
+  top: string
+  left: string
+}
+
+type FruitPoint = {
+  frameIndex: number
+  top: string
+  left: string
+  src: string
+}
+
 type Props = {
   id: string
   title: string
   subtitle?: string
   images: { src: string; alt: string }[]
   bg?: string
+  sparkle?: SparklePoint[]
+  fruit?: FruitPoint[]
 }
 
-export default function StorySection({ id, title, subtitle, images, bg }: Props) {
+export default function StorySection({ id, title, subtitle, images, bg, sparkle, fruit }: Props) {
   const sectionRef = React.useRef<HTMLElement | null>(null)
+  const [activeSparkle, setActiveSparkle] = React.useState<number | null>(null)
+  const [fallenFruits, setFallenFruits] = React.useState<number[]>([])
+
+  const handleFruitClick = (frameIndex: number) => {
+    if (!fallenFruits.includes(frameIndex)) {
+      setFallenFruits((prev) => [...prev, frameIndex])
+    } else {
+      // segundo click resetea para poder repetir
+      setFallenFruits((prev) => prev.filter((f) => f !== frameIndex))
+      setTimeout(() => {
+        setFallenFruits((prev) => [...prev, frameIndex])
+      }, 50)
+    }
+  }
 
   React.useLayoutEffect(() => {
     const section = sectionRef.current
@@ -63,13 +92,10 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
       })
 
       for (let i = 0; i < steps; i++) {
-        // Posiciones enteras (1, 2, …) en vez de fracciones (1/3, 2/3, …)
-        // para que el scrub las mapee correctamente al progreso de scroll
         const position = i + 1
         tl.to(frames[i], { opacity: 0, duration: 0.01 }, position)
         tl.to(frames[i + 1], { opacity: 1, duration: 0.01 }, position)
       }
-      // Ancla al final para forzar duración = totalSlots y alinear el mapeo
       tl.set({}, {}, totalSlots)
     }, section)
 
@@ -90,24 +116,59 @@ export default function StorySection({ id, title, subtitle, images, bg }: Props)
     >
       <div className="story-sticky">
         <div className="frames">
-          {images.map((img, i) => (
-            <div key={img.src} data-frame className="frame" style={{ opacity: i === 0 ? 1 : 0 }}>
-              <div className="img-wrap">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="100vw"
-                  unoptimized
-                  className="img-main"
-                  priority={id === "s01" && i === 0}
-                  loading={id === "s01" && i === 0 ? "eager" : "lazy"}
-                />
-              </div>
+          {images.map((img, i) => {
+            const sparklePoint = sparkle?.find((s) => s.frameIndex === i)
+            const fruitPoint = fruit?.find((f) => f.frameIndex === i)
+            const isFallen = fallenFruits.includes(i)
 
-              <div className="overlay" />
-            </div>
-          ))}
+            return (
+              <div key={img.src} data-frame className="frame" style={{ opacity: i === 0 ? 1 : 0 }}>
+                <div className="img-wrap">
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    sizes="100vw"
+                    unoptimized
+                    className="img-main"
+                    priority={id === "s01" && i === 0}
+                    loading={id === "s01" && i === 0 ? "eager" : "lazy"}
+                  />
+
+                  {sparklePoint && (
+                    <div
+                      className="coin-sparkle"
+                      style={{ top: sparklePoint.top, left: sparklePoint.left }}
+                      onMouseEnter={() => setActiveSparkle(i)}
+                      onMouseLeave={() => setActiveSparkle(null)}
+                    >
+                      <span className={activeSparkle === i ? "active" : ""}></span>
+                      <span className={activeSparkle === i ? "active" : ""}></span>
+                      <span className={activeSparkle === i ? "active" : ""}></span>
+                    </div>
+                  )}
+
+                  {fruitPoint && (
+                    <div
+                      className={`fruit-drop ${isFallen ? "fallen" : ""}`}
+                      style={{ top: fruitPoint.top, left: fruitPoint.left }}
+                      onClick={() => handleFruitClick(i)}
+                    >
+                      <Image
+                        src={fruitPoint.src}
+                        alt="fruta"
+                        width={60}
+                        height={60}
+                        unoptimized
+                      />
+                    </div>
+                  )}
+                </div>
+
+                <div className="overlay" />
+              </div>
+            )
+          })}
         </div>
 
         <div className="story-text-wrap">

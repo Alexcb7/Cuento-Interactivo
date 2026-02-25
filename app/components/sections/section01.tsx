@@ -12,6 +12,14 @@ export default function Section01() {
         { src: "/images/rata2.png", alt: "Ratita recogiendo la moneda" },
         { src: "/images/rata3.png", alt: "Ratita pensando qué comprar" },
       ]}
+      sparkle={[
+        { frameIndex: 0, top: "85%", left: "35%" },
+        { frameIndex: 1, top: "85%", left: "35%" },
+        { frameIndex: 2, top: "57%", left: "48%" },
+      ]}
+      fruit={[
+        { frameIndex: 2, top: "60%", left: "20%", src: "/images/manzana.png" },
+      ]}
     />
   )
 }

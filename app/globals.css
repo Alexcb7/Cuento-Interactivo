@@ -491,3 +491,355 @@ main {
     0 2px 6px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
+
+/* HUMO CHIMENEA (PAGINA DE INICIO */
+
+/* Posición base: desktop */
+.smoke--chimney {
+  top: 2%;
+  left: 73%;
+}
+
+/* ── iPad portrait ─────────────────────────────────────────────────────
+   Con object-fit:cover en viewport portrait, la imagen se recorta más
+   a los lados → la chimenea se desplaza hacia la izquierda en pantalla.
+   Ajusta left/top hasta que el humo quede sobre la chimenea.           */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  .smoke--chimney {
+    top: 4%;
+    left: 64%;
+  }
+}
+
+/* ── iPad Pro 11" / Air portrait (834–900px) ──────────────────────── */
+@media screen and (min-width: 825px) and (max-width: 900px) and (orientation: portrait) {
+  .smoke--chimney {
+    top: 3.5%;
+    left: 65%;
+  }
+}
+
+/* ── iPad Pro 12.9" portrait (1024px) ─────────────────────────────── */
+@media screen and (min-width: 1000px) and (max-width: 1100px) and (orientation: portrait) {
+  .smoke--chimney {
+    top: 3%;
+    left: 67%;
+  }
+}
+
+/* ── iPad landscape (todos los modelos) ───────────────────────────────
+   En landscape el ratio es más próximo a desktop, ajuste pequeño.     */
+@media screen and (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .smoke--chimney {
+    top: 2%;
+    left: 71%;
+  }
+}
+
+.smoke {
+  position: absolute;
+  pointer-events: none;
+}
+
+.smoke span {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(240,235,225,0.95) 0%, rgba(210,205,195,0.6) 50%, transparent 72%);
+  border-radius: 50%;
+  position: absolute;
+  will-change: transform, opacity, filter;
+  mix-blend-mode: screen;
+}
+
+/* Delays negativos = la animación arranca ya a mitad de ciclo → humo constante desde el frame 0 */
+.smoke span:nth-child(1) {
+  animation: smoke-1 8s infinite ease-out;
+  animation-delay: 0s;
+}
+.smoke span:nth-child(2) {
+  animation: smoke-2 7s infinite ease-out;
+  animation-delay: -3.5s;
+}
+.smoke span:nth-child(3) {
+  animation: smoke-3 9s infinite ease-out;
+  animation-delay: -1.5s;
+}
+.smoke span:nth-child(4) {
+  animation: smoke-1 8s infinite ease-out;
+  animation-delay: -5s;
+}
+.smoke span:nth-child(5) {
+  animation: smoke-2 7s infinite ease-out;
+  animation-delay: 2s;
+}
+.smoke span:nth-child(6) {
+  animation: smoke-3 9s infinite ease-out;
+  animation-delay: -7s;
+}
+
+/* Voluta 1 — deriva a la derecha, gira en sentido horario */
+@keyframes smoke-1 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.25) rotate(0deg);
+    opacity: 0;
+    filter: blur(0px);
+    border-radius: 50%;
+  }
+  8% {
+    opacity: 0.85;
+  }
+  25% {
+    transform: translateY(-35px) translateX(6px) scale(0.65) rotate(18deg);
+    opacity: 0.72;
+    filter: blur(5px);
+    border-radius: 42% 58% 55% 45%;
+  }
+  50% {
+    transform: translateY(-85px) translateX(14px) scale(1.1) rotate(30deg);
+    opacity: 0.35;
+    filter: blur(10px);
+    border-radius: 58% 42% 47% 53%;
+  }
+  75% {
+    transform: translateY(-140px) translateX(8px) scale(1.7) rotate(20deg);
+    opacity: 0.15;
+    filter: blur(16px);
+    border-radius: 50%;
+  }
+  100% {
+    transform: translateY(-190px) translateX(4px) scale(2.3) rotate(10deg);
+    opacity: 0;
+    filter: blur(22px);
+    border-radius: 50%;
+  }
+}
+
+/* Voluta 2 — deriva a la izquierda con meandros */
+@keyframes smoke-2 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.2) rotate(0deg);
+    opacity: 0;
+    filter: blur(3px);
+    border-radius: 50%;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  20% {
+    transform: translateY(-25px) translateX(-5px) scale(0.5) rotate(-12deg);
+    filter: blur(5px);
+    border-radius: 55% 45% 42% 58%;
+  }
+  45% {
+    transform: translateY(-75px) translateX(-12px) scale(1.0) rotate(-25deg);
+    opacity: 0.55;
+    filter: blur(9px);
+    border-radius: 45% 55% 58% 42%;
+  }
+  70% {
+    transform: translateY(-125px) translateX(-6px) scale(1.5) rotate(-15deg);
+    opacity: 0.2;
+    filter: blur(15px);
+  }
+  100% {
+    transform: translateY(-175px) translateX(-3px) scale(2.1) rotate(-5deg);
+    opacity: 0;
+    filter: blur(21px);
+    border-radius: 50%;
+  }
+}
+
+/* Voluta 3 — sube más recta, expansión lenta */
+@keyframes smoke-3 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.3) rotate(0deg);
+    opacity: 0;
+    filter: blur(2px);
+    border-radius: 50%;
+  }
+  7% {
+    opacity: 0.78;
+  }
+  30% {
+    transform: translateY(-45px) translateX(4px) scale(0.7) rotate(10deg);
+    opacity: 0.62;
+    filter: blur(6px);
+    border-radius: 50% 50% 44% 56%;
+  }
+  55% {
+    transform: translateY(-100px) translateX(-7px) scale(1.25) rotate(-8deg);
+    opacity: 0.28;
+    filter: blur(12px);
+    border-radius: 56% 44% 50% 50%;
+  }
+  80% {
+    transform: translateY(-155px) translateX(3px) scale(1.8) rotate(5deg);
+    opacity: 0.12;
+    filter: blur(18px);
+  }
+  100% {
+    transform: translateY(-200px) translateX(0px) scale(2.5) rotate(0deg);
+    opacity: 0;
+    filter: blur(24px);
+    border-radius: 50%;
+  }
+}
+
+/* Brillo de la moneda — hover */
+
+/* Brillo de la moneda */
+
+.coin-sparkle {
+  position: absolute;
+  pointer-events: none;
+  width: 70px;
+  height: 70px;
+  transform: translate(-50%, -50%);
+  cursor: default;
+}
+
+.coin-sparkle span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 200, 1)    0%,
+    rgba(255, 220,  30, 0.9) 35%,
+    rgba(255, 180,   0, 0.4) 60%,
+    transparent               80%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  filter: blur(0px);
+  will-change: transform, opacity, filter;
+  animation: coin-shine 1.6s ease-out infinite;
+}
+
+.coin-sparkle span:nth-child(1) { animation-delay: 0s;    }
+.coin-sparkle span:nth-child(2) { animation-delay: 0.53s; }
+.coin-sparkle span:nth-child(3) { animation-delay: 1.06s; }
+
+@keyframes coin-shine {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+    filter: blur(0px);
+    box-shadow: none;
+  }
+  15% {
+    opacity: 0.85;
+    filter: blur(1px);
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1.0);
+    opacity: 0.65;
+    filter: blur(2px);
+    box-shadow: 0 0 20px 10px rgba(255, 220, 40, 0.9);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0.25;
+    filter: blur(5px);
+    box-shadow: 0 0 30px 15px rgba(255, 200, 20, 0.5);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+    filter: blur(8px);
+    box-shadow: none;
+  }
+}
+
+.fruit-drop {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s;
+}
+
+.fruit-drop:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.fruit-drop.fallen {
+  animation: fruit-fall 1.2s ease-in forwards;
+}
+
+@keyframes fruit-fall {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  60% {
+    transform: translate(-50%, calc(-50% + 220px)) rotate(200deg);
+  }
+  75% {
+    transform: translate(-50%, calc(-50% + 190px)) rotate(210deg);
+  }
+  88% {
+    transform: translate(-50%, calc(-50% + 215px)) rotate(205deg);
+  }
+  100% {
+    transform: translate(-50%, calc(-50% + 210px)) rotate(205deg);
+  }
+}
+
+/* TRANSICION DE NUBES */
+
+/* ── Transición de nubes ─────────────────────────────────────── */
+
+.cloud-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  top: 0;
+  /* 65% cada nube → solapan 30% en el centro, sin hueco posible */
+  width: 65%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Asegura que la imagen llena su mitad sin deformarse */
+.cloud img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cloud--left {
+  left: 0;
+  /* cubic-bezier: arranca con impulso y decelera al llegar → natural */
+  animation: cloud-in-left 2s cubic-bezier(0.22, 0.6, 0.36, 1) forwards;
+}
+
+.cloud--right {
+  right: 0;
+  /* 0.2s de retraso → efecto izquierda a derecha */
+  animation: cloud-in-right 2s cubic-bezier(0.22, 0.6, 0.36, 1) forwards;
+  animation-delay: 0.2s;
+  /* empieza fuera de pantalla mientras espera el delay */
+  transform: translateX(100%);
+}
+
+@keyframes cloud-in-left {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}
+
+@keyframes cloud-in-right {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(0%); }
+}
