@@ -12,6 +12,9 @@ export default function Section07() {
         { src: "/images/rata20.png", alt: "Gato y ratita conversan, ratita acepta" },
         { src: "/images/rata21.png", alt: "Gato la persigue" },
       ]}
+      speedLines={[
+        { frameIndex: 2, top: "35%", left: "55%" },
+      ]}
     />
   )
 }

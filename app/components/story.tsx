@@ -1,8 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { stopLenis } from "@/app/components/shared/leni"
 import Section01 from "@/app/components/sections/section01"
 import Section02 from "@/app/components/sections/section02"
 import Section03 from "@/app/components/sections/section03"
@@ -22,6 +24,8 @@ interface StoryProps {
 }
 
 export default function Story({ onEnd }: StoryProps) {
+  const [clouding, setClouding] = useState(false)
+
   useEffect(() => {
     if (!onEnd) return
 
@@ -31,12 +35,12 @@ export default function Story({ onEnd }: StoryProps) {
     const timer = setTimeout(() => {
       const st = ScrollTrigger.create({
         trigger: "#s10",
-        start: "top center",
-        onEnter: () => {
+        start: "top top",
+        end: () => "+=" + window.innerHeight * 2,
+        onLeave: () => {
           if (called) return
           called = true
-          // Pausa para que el usuario vea la última imagen antes del cierre
-          setTimeout(onEnd, 1500)
+          setClouding(true)
         },
       })
 
@@ -45,6 +49,20 @@ export default function Story({ onEnd }: StoryProps) {
 
     return () => clearTimeout(timer)
   }, [onEnd])
+
+  // Cuando las nubes empiezan, congelar scroll y pasar al closing al terminar
+  useEffect(() => {
+    if (!clouding || !onEnd) return
+    // Congelar scroll para que el snap no arrastre la vista
+    stopLenis()
+    ScrollTrigger.getAll().forEach((st) => st.disable())
+    // 2.2s animación principal + 500ms pantalla cubierta
+    const t = setTimeout(() => {
+      window.scrollTo(0, 0)
+      onEnd()
+    }, 2700)
+    return () => clearTimeout(t)
+  }, [clouding, onEnd])
 
   return (
     <main>
@@ -59,6 +77,18 @@ export default function Story({ onEnd }: StoryProps) {
       <Section09 />
       <Section10 />
       <Pagination />
+
+      {/* Transición de nubes al final — barrido de izquierda a derecha */}
+      {clouding && (
+        <div className="cloud-transition cloud-transition--blocking">
+          <div className="cloud cloud--sweep-lead">
+            <Image src="/images/nubes.png" alt="" fill unoptimized />
+          </div>
+          <div className="cloud cloud--sweep-follow">
+            <Image src="/images/nubes.png" alt="" fill unoptimized style={{ transform: "scaleX(-1)" }} />
+          </div>
+        </div>
+      )}
     </main>
   )
 }

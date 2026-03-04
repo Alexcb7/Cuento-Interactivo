@@ -95,24 +95,37 @@ main {
 
 .story-card {
   max-width: 720px;
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(8px);
-  border-radius: 18px;
-  padding: 16px;
+  background: rgba(255, 248, 235, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 28px;
+  padding: 18px 28px 20px;
+  border: 2px solid rgba(255, 210, 160, 0.55);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .story-title {
   margin: 0 0 8px 0;
-  font-size: 22px;
-  line-height: 1.15;
-  color: #0b1020;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #6b1f3a;
+  text-shadow:
+    1px 1px 0 rgba(255, 255, 255, 0.8),
+    3px 3px 0 rgba(252, 132, 170, 0.3);
+  letter-spacing: -0.5px;
 }
 
 .story-subtitle {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.45;
-  color: rgba(11, 16, 32, 0.78);
+  font-size: clamp(13px, 2.2vw, 17px);
+  line-height: 1.65;
+  color: #6b1f3a;
+  opacity: 0.8;
+  font-style: italic;
 }
 
 /* =====================
@@ -198,11 +211,57 @@ main {
   color: #0b1020;
 }
 
+/* =====================
+   FLECHAS DE NAVEGACIÓN
+   ===================== */
+
+.frame-nav {
+  position: absolute;
+  bottom: 18px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  gap: 6px;
+}
+
+.frame-nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 210, 160, 0.55);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  color: #6b1f3a;
+  background: rgba(255, 248, 235, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  padding: 0;
+}
+
+.frame-nav-btn:hover {
+  background: rgba(255, 248, 235, 0.95);
+  border-color: rgba(255, 185, 110, 0.85);
+  transform: scale(1.12);
+}
+
+.frame-nav-btn:active {
+  transform: scale(0.92);
+}
+
 @media (min-width: 768px) {
   .story-text-wrap { padding: 40px; }
-  .story-card { padding: 22px; border-radius: 22px; }
-  .story-title { font-size: 28px; }
-  .story-subtitle { font-size: 16px; }
+  .story-card { padding: 22px 32px 24px; }
+  .frame-nav { bottom: 44px; right: 44px; gap: 8px; }
+  .frame-nav-btn { width: 36px; height: 36px; font-size: 18px; }
 }
 
 /* =====================
@@ -686,6 +745,138 @@ main {
   }
 }
 
+/* ================================================================
+   VAPOR PLATOS DE COMIDA (ESCENA FINAL)
+   Más suave que el humo de la chimenea pero visible.
+   4 spans por plato.
+   ================================================================ */
+
+/* Posición via inline style (top/left) como los demás efectos */
+.smoke--plate {
+  z-index: 5;
+}
+
+/* Spans de vapor: tamaño medio, blanco cálido */
+.smoke--plate span {
+  width: 70px;
+  height: 70px;
+  background: radial-gradient(circle, rgba(245,240,232,0.85) 0%, rgba(220,215,205,0.4) 50%, transparent 72%);
+  mix-blend-mode: normal;
+}
+
+.smoke--plate span:nth-child(1) {
+  animation: steam-1 6s infinite ease-out;
+  animation-delay: 0s;
+}
+.smoke--plate span:nth-child(2) {
+  animation: steam-2 5s infinite ease-out;
+  animation-delay: -2.5s;
+}
+.smoke--plate span:nth-child(3) {
+  animation: steam-3 7s infinite ease-out;
+  animation-delay: -1s;
+}
+.smoke--plate span:nth-child(4) {
+  animation: steam-1 6.5s infinite ease-out;
+  animation-delay: -4s;
+}
+
+/* Voluta vapor 1 — sube suave hacia la derecha */
+@keyframes steam-1 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.2) rotate(0deg);
+    opacity: 0;
+    filter: blur(1px);
+    border-radius: 50%;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  30% {
+    transform: translateY(-25px) translateX(4px) scale(0.5) rotate(10deg);
+    opacity: 0.55;
+    filter: blur(3px);
+    border-radius: 44% 56% 52% 48%;
+  }
+  60% {
+    transform: translateY(-60px) translateX(8px) scale(0.85) rotate(18deg);
+    opacity: 0.25;
+    filter: blur(7px);
+    border-radius: 52% 48% 46% 54%;
+  }
+  100% {
+    transform: translateY(-110px) translateX(4px) scale(1.2) rotate(8deg);
+    opacity: 0;
+    filter: blur(12px);
+    border-radius: 50%;
+  }
+}
+
+/* Voluta vapor 2 — sube hacia la izquierda */
+@keyframes steam-2 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.18) rotate(0deg);
+    opacity: 0;
+    filter: blur(1px);
+    border-radius: 50%;
+  }
+  12% {
+    opacity: 0.65;
+  }
+  35% {
+    transform: translateY(-22px) translateX(-5px) scale(0.45) rotate(-8deg);
+    opacity: 0.45;
+    filter: blur(3px);
+    border-radius: 54% 46% 48% 52%;
+  }
+  65% {
+    transform: translateY(-55px) translateX(-8px) scale(0.75) rotate(-14deg);
+    opacity: 0.18;
+    filter: blur(7px);
+  }
+  100% {
+    transform: translateY(-95px) translateX(-3px) scale(1.1) rotate(-5deg);
+    opacity: 0;
+    filter: blur(11px);
+    border-radius: 50%;
+  }
+}
+
+/* Voluta vapor 3 — sube recta y lenta */
+@keyframes steam-3 {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(0.22) rotate(0deg);
+    opacity: 0;
+    filter: blur(1px);
+    border-radius: 50%;
+  }
+  8% {
+    opacity: 0.6;
+  }
+  25% {
+    transform: translateY(-20px) translateX(2px) scale(0.45) rotate(5deg);
+    opacity: 0.48;
+    filter: blur(3px);
+    border-radius: 48% 52% 50% 50%;
+  }
+  50% {
+    transform: translateY(-50px) translateX(-3px) scale(0.7) rotate(-4deg);
+    opacity: 0.2;
+    filter: blur(6px);
+  }
+  80% {
+    transform: translateY(-80px) translateX(1px) scale(0.95) rotate(2deg);
+    opacity: 0.08;
+    filter: blur(9px);
+  }
+  100% {
+    transform: translateY(-105px) translateX(0px) scale(1.15) rotate(0deg);
+    opacity: 0;
+    filter: blur(12px);
+    border-radius: 50%;
+  }
+}
+
 /* Brillo de la moneda — hover */
 
 /* Brillo de la moneda */
@@ -790,6 +981,55 @@ main {
   }
 }
 
+/* =====================
+   LÍNEAS DE VELOCIDAD
+   ===================== */
+
+.speed-lines {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  width: 320px;
+  height: 280px;
+}
+
+.speed-lines span {
+  position: absolute;
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.7);
+  will-change: transform, opacity;
+  animation: speed-dash 0.8s ease-out infinite;
+}
+
+.speed-lines span:nth-child(1) { top: 8%;  left: 10%; width: 60px;  animation-delay: 0s;    }
+.speed-lines span:nth-child(2) { top: 22%; left: 0;   width: 80px;  animation-delay: 0.12s; }
+.speed-lines span:nth-child(3) { top: 36%; left: 15%; width: 50px;  animation-delay: 0.28s; }
+.speed-lines span:nth-child(4) { top: 48%; left: 5%;  width: 70px;  animation-delay: 0.06s; }
+.speed-lines span:nth-child(5) { top: 60%; left: 12%; width: 55px;  animation-delay: 0.35s; }
+.speed-lines span:nth-child(6) { top: 72%; left: 0;   width: 65px;  animation-delay: 0.18s; }
+.speed-lines span:nth-child(7) { top: 84%; left: 8%;  width: 45px;  animation-delay: 0.42s; }
+.speed-lines span:nth-child(8) { top: 95%; left: 18%; width: 75px;  animation-delay: 0.24s; }
+
+@keyframes speed-dash {
+  0% {
+    transform: translateX(0) scaleX(0.3);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(-40px) scaleX(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(-90px) scaleX(0.1);
+    opacity: 0;
+  }
+}
+
 /* TRANSICION DE NUBES */
 
 /* ── Transición de nubes ─────────────────────────────────────── */
@@ -800,6 +1040,11 @@ main {
   z-index: 100;
   pointer-events: none;
   overflow: hidden;
+}
+
+/* Bloquear scroll/interacción durante las nubes de cierre */
+.cloud-transition--blocking {
+  pointer-events: all;
 }
 
 .cloud {
@@ -842,4 +1087,22 @@ main {
 @keyframes cloud-in-right {
   0%   { transform: translateX(100%); }
   100% { transform: translateX(0%); }
+}
+
+/* ── Nubes de cierre del cuento (izquierda + derecha, como la intro) ── */
+
+.cloud--sweep-lead {
+  left: 0;
+  width: 65%;
+  animation: cloud-in-left 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  transform: translateX(-100%);
+}
+
+.cloud--sweep-follow {
+  right: 0;
+  left: auto;
+  width: 65%;
+  animation: cloud-in-right 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.2s;
+  transform: translateX(100%);
 }

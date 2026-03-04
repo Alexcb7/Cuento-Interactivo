@@ -26,6 +26,10 @@ export function initLenis() {
   return lenis
 }
 
+export function stopLenis() {
+  lenis?.stop()
+}
+
 export function destroyLenis() {
   if (!lenis) return
   lenis.destroy()
