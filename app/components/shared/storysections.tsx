@@ -36,9 +36,10 @@ type Props = {
   fruit?: FruitPoint[]
   speedLines?: SpeedLinesPoint[]
   children?: React.ReactNode
+  frameTexts?: string[]
 }
 
-export default function StorySection({ id, title, subtitle, images, bg, sparkle, fruit, speedLines, children }: Props) {
+export default function StorySection({ id, title, subtitle, images, bg, sparkle, fruit, speedLines, children, frameTexts }: Props) {
   const sectionRef = React.useRef<HTMLElement | null>(null)
   const stRef = React.useRef<ScrollTrigger | null>(null)
   const snapRef = React.useRef<number[]>([])
@@ -270,7 +271,7 @@ export default function StorySection({ id, title, subtitle, images, bg, sparkle,
         <div className="story-text-wrap">
           <div className="story-card">
             <h2 className="story-title">{title}</h2>
-            {subtitle ? <p className="story-subtitle">{subtitle}</p> : null}
+            <p className="story-subtitle">{frameTexts?.[currentFrame] ?? subtitle ?? ""}</p>
           </div>
         </div>
 

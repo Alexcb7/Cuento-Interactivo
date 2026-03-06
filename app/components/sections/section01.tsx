@@ -6,7 +6,11 @@ export default function Section01() {
     <StorySection
       id="s01"
       title="La ratita pasea por el jardín…"
-      subtitle="¡Uy! Algo brilla en el suelo."
+      frameTexts={[
+        "La ratita presumida paseaba feliz por el mercado cuando, de repente, vio algo brillante en el suelo.",
+        "Se agachó curiosa y descubrió una moneda de oro reluciente. ¡Qué suerte!",
+        "«¿Qué podré comprar?», pensó ilusionada. ¿Un quesito? ¿Un lacito? ¡Tenía tantas ideas!",
+      ]}
       images={[
         { src: "/images/rata1.png", alt: "Ratita paseando y encontrando una moneda" },
         { src: "/images/rata2.png", alt: "Ratita recogiendo la moneda" },

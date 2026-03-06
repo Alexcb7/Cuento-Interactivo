@@ -6,7 +6,11 @@ export default function Section10() {
     <StorySection
       id="s09"
       title="Llaman a la puerta"
-      subtitle="La ratita conoce al raton"
+      frameTexts={[
+        "De repente, alguien llamó a la puerta. ¡Toc, toc! La ratita se levantó sorprendida. ¿Quién será?",
+        "Abrió la puerta y allí estaba un ratoncito simpático con un ramo de flores. «Hola, ratita.»",
+        "La ratita sintió que el corazón le latía muy fuerte. ¡Por fin alguien dulce y amable como ella!",
+      ]}
       images={[
         { src: "/images/rata25.png", alt: "Llaman a la puerta" },
         { src: "/images/rata26.png", alt: "Aparece el ratón" },

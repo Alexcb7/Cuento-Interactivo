@@ -5,8 +5,10 @@ export default function SectionFinal() {
   return (
     <StorySection
       id="s10"
-      title="El raton y la ratita se enamoran"
-      subtitle="Cita amorosa"
+      title="El ratón y la ratita se enamoran"
+      frameTexts={[
+        "Y juntos prepararon una cena maravillosa. La ratita y el ratón cenaron felices, y colorín colorado, este cuento se ha acabado.",
+      ]}
       images={[
         { src: "/images/final28.png", alt: "Ratita y Raton cenando" },
       ]}

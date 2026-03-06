@@ -6,7 +6,11 @@ export default function Section04() {
     <StorySection
       id="s04"
       title="Aparece el gallo enamorado"
-      subtitle="Pero… la ratita no está convencida."
+      frameTexts={[
+        "De pronto apareció el gallo, con un ramo de flores y el corazón enamorado. «¡Ratita, cásate conmigo!»",
+        "«¿Y por las noches qué harás?», preguntó la ratita. «¡Quiquiriquí!», cantó el gallo.",
+        "«¡Ay no, que me asustarás!», dijo la ratita. Y el gallo se marchó con el corazón roto.",
+      ]}
       images={[
         { src: "/images/rata10.png", alt: "Gallo aparece enamorado" },
         { src: "/images/rata11.png", alt: "Gallo y ratita conversan, ratita rechaza" },
