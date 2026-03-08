@@ -1,7 +1,11 @@
 "use client"
 import StorySection from "@/app/components/shared/storysections"
 
-export default function SectionFinal() {
+interface SectionFinalProps {
+  onFinish?: () => void
+}
+
+export default function SectionFinal({ onFinish }: SectionFinalProps) {
   return (
     <StorySection
       id="s10"
@@ -28,6 +32,13 @@ export default function SectionFinal() {
         <span></span>
         <span></span>
       </div>
+
+      {/* Botón Final */}
+      {onFinish && (
+        <button className="final-btn" onClick={onFinish} type="button">
+          Final
+        </button>
+      )}
     </StorySection>
   )
 }

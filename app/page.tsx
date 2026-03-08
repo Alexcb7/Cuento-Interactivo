@@ -5,11 +5,21 @@ import Story from "@/app/components/story"
 import IntroPage from "@/app/components/intro-page"
 import ClosingPage from "@/app/components/closing-page"
 import { initLenis, destroyLenis } from "@/app/components/shared/leni"
+import AudioProvider, { useAudio } from "@/app/components/shared/audio-provider"
 
 type PageState = "intro" | "story" | "closing"
 
 export default function Page() {
+  return (
+    <AudioProvider>
+      <PageInner />
+    </AudioProvider>
+  )
+}
+
+function PageInner() {
   const [pageState, setPageState] = useState<PageState>("intro")
+  const { startMusic, stopMusic } = useAudio()
 
   // Inicializar / destruir Lenis según el estado
   useEffect(() => {
@@ -32,10 +42,14 @@ export default function Page() {
   }, [pageState])
 
   const handleOpen = () => {
+    // Arrancar la música aquí — dentro del evento de clic del usuario
+    // para que el navegador permita el autoplay
+    startMusic()
     setPageState("story")
   }
 
   const handleClose = () => {
+    stopMusic()
     setPageState("closing")
   }
 

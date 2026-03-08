@@ -89,43 +89,96 @@ main {
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   padding: 16px;
 }
 
 .story-card {
-  max-width: 720px;
+  max-width: 540px;
   background: rgba(255, 248, 235, 0.82);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-radius: 28px;
-  padding: 18px 28px 20px;
+  border-radius: 24px;
+  padding: 14px 22px 16px;
   border: 2px solid rgba(255, 210, 160, 0.55);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.18),
     0 2px 8px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  text-align: center;
 }
 
 .story-title {
-  margin: 0 0 8px 0;
-  font-size: clamp(22px, 4vw, 32px);
+  margin: 0 0 6px 0;
+  font-size: clamp(20px, 3.5vw, 28px);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.15;
   color: #6b1f3a;
   text-shadow:
     1px 1px 0 rgba(255, 255, 255, 0.8),
     3px 3px 0 rgba(252, 132, 170, 0.3);
   letter-spacing: -0.5px;
+  text-wrap: balance;
 }
 
 .story-subtitle {
   margin: 0;
-  font-size: clamp(13px, 2.2vw, 17px);
-  line-height: 1.65;
+  font-size: clamp(13px, 2vw, 16px);
+  line-height: 1.55;
   color: #6b1f3a;
   opacity: 0.8;
   font-style: italic;
+  text-wrap: pretty;
+}
+
+/* =====================
+   BOTÓN FINAL (SECCIÓN 10)
+   ===================== */
+
+.final-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  background: rgba(255, 248, 235, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid rgba(255, 210, 160, 0.55);
+  border-radius: 28px;
+  padding: 14px 40px;
+  font-size: clamp(15px, 2.5vw, 20px);
+  font-weight: 800;
+  color: #6b1f3a;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.28s ease,
+              background 0.28s ease,
+              border-color 0.28s ease;
+}
+
+.final-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255, 248, 235, 0.96);
+  border-color: rgba(255, 185, 110, 0.85);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.2),
+    0 4px 14px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.final-btn:active {
+  transform: scale(0.97);
+}
+
+@media (min-width: 768px) {
+  .final-btn { top: 22px; right: 22px; padding: 16px 48px; }
 }
 
 /* =====================
@@ -258,10 +311,119 @@ main {
 }
 
 @media (min-width: 768px) {
-  .story-text-wrap { padding: 40px; }
-  .story-card { padding: 22px 32px 24px; }
-  .frame-nav { bottom: 44px; right: 44px; gap: 8px; }
+  .story-text-wrap { padding: 36px; }
+  .story-card { padding: 18px 28px 20px; }
+  .frame-nav { bottom: 40px; right: 40px; gap: 8px; }
   .frame-nav-btn { width: 36px; height: 36px; font-size: 18px; }
+}
+
+/* =====================
+   INDICADOR VISUAL SFX
+   ===================== */
+
+.sfx-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 18px;
+  background: rgba(255, 248, 235, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 210, 160, 0.55);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: sfx-pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sfx-indicator-icon {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 20px;
+}
+
+.sfx-indicator-icon span {
+  display: block;
+  width: 4px;
+  border-radius: 2px;
+  background: #6b1f3a;
+  animation: sfx-bar 0.6s ease-in-out infinite alternate;
+}
+
+.sfx-indicator-icon span:nth-child(1) { height: 6px;  animation-delay: 0s; }
+.sfx-indicator-icon span:nth-child(2) { height: 14px; animation-delay: 0.12s; }
+.sfx-indicator-icon span:nth-child(3) { height: 20px; animation-delay: 0.24s; }
+.sfx-indicator-icon span:nth-child(4) { height: 12px; animation-delay: 0.36s; }
+.sfx-indicator-icon span:nth-child(5) { height: 8px;  animation-delay: 0.48s; }
+
+.sfx-indicator-label {
+  font-size: clamp(13px, 2vw, 16px);
+  font-weight: 800;
+  font-style: italic;
+  color: #6b1f3a;
+  white-space: nowrap;
+}
+
+@keyframes sfx-bar {
+  0%   { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+
+@keyframes sfx-pop-in {
+  0%   { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+/* =====================
+   BOTÓN TOGGLE AUDIO
+   ===================== */
+
+.audio-toggle-btn {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 300;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 210, 160, 0.55);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b1f3a;
+  background: rgba(255, 248, 235, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, opacity 0.25s ease;
+  padding: 0;
+  opacity: 0.8;
+}
+
+.audio-toggle-btn:hover {
+  background: rgba(255, 248, 235, 0.95);
+  border-color: rgba(255, 185, 110, 0.85);
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.audio-toggle-btn:active {
+  transform: scale(0.92);
+}
+
+@media (min-width: 768px) {
+  .audio-toggle-btn {
+    width: 44px;
+    height: 44px;
+    top: 22px;
+    left: 22px;
+  }
 }
 
 /* =====================

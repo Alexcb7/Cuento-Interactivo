@@ -16,6 +16,10 @@ export default function Section02() {
         { src: "/images/rata5.png", alt: "Ratita ve el lazo rojo dentro de la tienda" },
         { src: "/images/rata6.png", alt: "Ratita compra el lazo rojo" },
       ]}
+      sfx={[
+        { frameIndex: 1, src: "/sounds/entrada_tienda.mp3.mp3", label: "¡Ding, ding!" },
+        { frameIndex: 2, src: "/sounds/caja_registradora.mp3.mp3", label: "¡Ka-ching!" },
+      ]}
     />
   )
 }

@@ -16,6 +16,9 @@ export default function Section05() {
         { src: "/images/rata14.png", alt: "Perro y ratita conversan, ratita rechaza" },
         { src: "/images/rata15.png", alt: "Perro se va triste" },
       ]}
+      sfx={[
+        { frameIndex: 1, src: "/sounds/perro.mp3.mp3", label: "¡Guau, guau!" },
+      ]}
     />
   )
 }

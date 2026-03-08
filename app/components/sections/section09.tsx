@@ -16,6 +16,9 @@ export default function Section10() {
         { src: "/images/rata26.png", alt: "Aparece el ratón" },
         { src: "/images/rata27.png", alt: "Rata se enamora de ratón" },
       ]}
+      sfx={[
+        { frameIndex: 0, src: "/sounds/golpes_puerta.mp3.mp3", label: "¡Toc, toc!" },
+      ]}
     />
   )
 }

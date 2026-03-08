@@ -4,6 +4,7 @@ import React from "react"
 import Image from "next/image"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useAudio } from "@/app/components/shared/audio-provider"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,6 +27,17 @@ type SpeedLinesPoint = {
   left: string
 }
 
+type SfxPoint = {
+  frameIndex: number
+  src: string
+  label: string
+}
+
+type MusicSwap = {
+  frameIndex: number
+  src: string
+}
+
 type Props = {
   id: string
   title: string
@@ -35,18 +47,98 @@ type Props = {
   sparkle?: SparklePoint[]
   fruit?: FruitPoint[]
   speedLines?: SpeedLinesPoint[]
+  sfx?: SfxPoint[]
+  musicSwap?: MusicSwap
   children?: React.ReactNode
   frameTexts?: string[]
 }
 
-export default function StorySection({ id, title, subtitle, images, bg, sparkle, fruit, speedLines, children, frameTexts }: Props) {
+export default function StorySection({ id, title, subtitle, images, bg, sparkle, fruit, speedLines, sfx, musicSwap, children, frameTexts }: Props) {
   const sectionRef = React.useRef<HTMLElement | null>(null)
   const stRef = React.useRef<ScrollTrigger | null>(null)
   const snapRef = React.useRef<number[]>([])
   const [activeSparkle, setActiveSparkle] = React.useState<number | null>(null)
   const [fallenFruits, setFallenFruits] = React.useState<number[]>([])
   const [currentFrame, setCurrentFrame] = React.useState(0)
+  const [sfxPlaying, setSfxPlaying] = React.useState(false)
+  const playedSfxRef = React.useRef<Set<number>>(new Set())
+  const swappedRef = React.useRef(false)
+  const [sectionActive, setSectionActive] = React.useState(false)
   const totalFrames = images.length
+  const { playSfx, changeMusic, restoreMusic } = useAudio()
+
+  // Cambiar música al entrar en la sección, restaurar al salir
+  React.useEffect(() => {
+    if (!musicSwap || !sectionRef.current) return
+
+    const st = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top center",
+      end: "bottom center",
+      onEnter: () => {
+        if (!swappedRef.current) {
+          swappedRef.current = true
+          changeMusic(musicSwap.src)
+        }
+      },
+      onEnterBack: () => {
+        if (!swappedRef.current) {
+          swappedRef.current = true
+          changeMusic(musicSwap.src)
+        }
+      },
+      onLeave: () => {
+        if (swappedRef.current) {
+          swappedRef.current = false
+          restoreMusic()
+        }
+      },
+      onLeaveBack: () => {
+        if (swappedRef.current) {
+          swappedRef.current = false
+          restoreMusic()
+        }
+      },
+    })
+
+    return () => {
+      st.kill()
+      if (swappedRef.current) {
+        restoreMusic()
+        swappedRef.current = false
+      }
+    }
+  }, [musicSwap, changeMusic, restoreMusic])
+
+  // Detectar cuándo la sección está en vista para habilitar SFX
+  React.useEffect(() => {
+    if (!sectionRef.current) return
+
+    const st = ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top center",
+      end: "bottom center",
+      onEnter: () => { setSectionActive(true) },
+      onEnterBack: () => { setSectionActive(true) },
+      onLeave: () => { setSectionActive(false) },
+      onLeaveBack: () => { setSectionActive(false) },
+    })
+
+    return () => st.kill()
+  }, [])
+
+  // Auto-reproducir SFX cuando se llega al frame correspondiente (solo si la sección está activa)
+  React.useEffect(() => {
+    if (!sfx || !sectionActive) return
+    const match = sfx.find((s) => s.frameIndex === currentFrame)
+    if (match && !playedSfxRef.current.has(currentFrame)) {
+      playedSfxRef.current.add(currentFrame)
+      setSfxPlaying(true)
+      playSfx(match.src, () => setSfxPlaying(false))
+    } else if (!match) {
+      setSfxPlaying(false)
+    }
+  }, [currentFrame, sfx, playSfx, sectionActive])
 
   const handleFruitClick = (frameIndex: number) => {
     if (!fallenFruits.includes(frameIndex)) {
@@ -273,6 +365,18 @@ export default function StorySection({ id, title, subtitle, images, bg, sparkle,
             <h2 className="story-title">{title}</h2>
             <p className="story-subtitle">{frameTexts?.[currentFrame] ?? subtitle ?? ""}</p>
           </div>
+
+          {/* Indicador visual de SFX */}
+          {sfx?.find((s) => s.frameIndex === currentFrame) && sfxPlaying && (
+            <div className="sfx-indicator">
+              <div className="sfx-indicator-icon">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <span className="sfx-indicator-label">
+                {sfx.find((s) => s.frameIndex === currentFrame)!.label}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Flechas de navegación */}

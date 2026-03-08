@@ -19,6 +19,7 @@ export default function Section07() {
       speedLines={[
         { frameIndex: 2, top: "35%", left: "55%" },
       ]}
+      musicSwap={{ frameIndex: 0, src: "/sounds/musica_tension.mp3.mp3" }}
     />
   )
 }

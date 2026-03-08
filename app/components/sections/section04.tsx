@@ -16,6 +16,9 @@ export default function Section04() {
         { src: "/images/rata11.png", alt: "Gallo y ratita conversan, ratita rechaza" },
         { src: "/images/rata12.png", alt: "Gallo se va triste" },
       ]}
+      sfx={[
+        { frameIndex: 1, src: "/sounds/gallo.mp3.mp3", label: "¡Quiquiriquí!" },
+      ]}
     />
   )
 }

@@ -16,6 +16,9 @@ export default function Section09() {
         { src: "/images/rata23.png", alt: "Rata tranquila leyendo" },
         { src: "/images/rata24.png", alt: "Rata Triste" },
       ]}
+      sfx={[
+        { frameIndex: 0, src: "/sounds/cerradura.mp3.mp3", label: "¡Clic, clac!" },
+      ]}
     />
   )
 }

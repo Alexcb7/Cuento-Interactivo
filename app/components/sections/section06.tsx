@@ -16,6 +16,9 @@ export default function Section06() {
         { src: "/images/rata17.png", alt: "Cerdo y ratita conversan, ratita rechaza" },
         { src: "/images/rata18.png", alt: "Cerdo se va triste" },
       ]}
+      sfx={[
+        { frameIndex: 1, src: "/sounds/cerdo.mp3.mp3", label: "¡Oinc, oinc!" },
+      ]}
     />
   )
 }
