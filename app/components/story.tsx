@@ -90,14 +90,21 @@ export default function Story({ onEnd }: StoryProps) {
 
       {/* Transición de nubes al final — barrido de izquierda a derecha */}
       {clouding && (
-        <div className="cloud-transition cloud-transition--blocking">
-          <div className="cloud cloud--left">
-            <Image src="/images/nubes.png" alt="" fill unoptimized />
+        <>
+          {/* Fija el fondo de la sección 10 mientras duran las nubes */}
+          <div style={{ position: "fixed", inset: 0, zIndex: 99 }}>
+            <Image src="/images/final28.png" alt="" fill unoptimized style={{ objectFit: "cover" }} />
           </div>
-          <div className="cloud cloud--right">
-            <Image src="/images/nubes.png" alt="" fill unoptimized style={{ transform: "scaleX(-1)" }} />
+
+          <div className="cloud-transition cloud-transition--blocking">
+            <div className="cloud cloud--left">
+              <Image src="/images/nubes.png" alt="" fill unoptimized />
+            </div>
+            <div className="cloud cloud--right">
+              <Image src="/images/nubes.png" alt="" fill unoptimized style={{ transform: "scaleX(-1)" }} />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </main>
   )

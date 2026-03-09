@@ -9,9 +9,10 @@ export function initLenis() {
   if (lenis) return lenis
 
   lenis = new Lenis({
-    lerp: 0.08,
+    lerp: 0.2,
     smoothWheel: true,
-    touchMultiplier: 1.2,
+    wheelMultiplier: 0.7,
+    touchMultiplier: 1.0,
   })
 
 
